@@ -7,4 +7,4 @@ appVersion: "4.0"
 dependencies:
   - name: app-template
     version: 3.0.4
-    repository: https://github.com/bjw-s-labs/helm-charts
+    repository: https://bjw-s-labs.github.io/helm-charts
