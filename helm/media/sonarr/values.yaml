@@ -1,0 +1,32 @@
+controllers:
+  main:
+    containers:
+      main:
+        image:
+          repository: lscr.io/linuxserver/sonarr
+          tag: latest
+        env:
+          PUID: "1000"
+          PGID: "1000"
+          TZ: "Europe/Amsterdam"
+        securityContext:
+          allowPrivilegeEscalation: false
+
+service:
+  main:
+    ports:
+      http:
+        port: 8989
+
+persistence:
+  config:
+    enabled: true
+    storageClass: local-path
+    size: 5Gi
+    globalMounts:
+      - path: /config
+  data:
+    enabled: true
+    existingClaim: arr-data
+    globalMounts:
+      - path: /data
