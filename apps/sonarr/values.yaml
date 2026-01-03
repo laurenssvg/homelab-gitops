@@ -1,0 +1,33 @@
+app-template:
+  controllers:
+    main:
+      containers:
+        main:
+          image:
+            repository: ghcr.io/linuxserver/sonarr
+            tag: latest
+          env:
+            TZ: Europe/Amsterdam
+            PUID: "1000"
+            PGID: "1000"
+
+  service:
+    main:
+      ports:
+        http:
+          port: 8989
+
+  persistence:
+    config:
+      enabled: true
+      type: persistentVolumeClaim
+      storageClass: local-path
+      accessMode: ReadWriteOnce
+      size: 5Gi
+      retain: true
+    media:
+      enabled: true
+      type: hostPath
+      hostPath: /mnt/c/Dev/temp
+      globalMounts:
+        - path: /media

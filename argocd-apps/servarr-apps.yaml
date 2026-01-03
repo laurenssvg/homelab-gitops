@@ -1,19 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: home-root
+  name: sonarr
   namespace: argocd
 spec:
   project: default
   source:
-    repoURL: https://github.com/laurenssvg/homelab-gitops.git
+    repoURL: https://github.com/laurenssvg/homelab-gitops
     targetRevision: main
-    path: clusters/home/apps
-    directory:
-      recurse: true
+    path: apps/sonarr
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: media
   syncPolicy:
     automated:
       prune: true
