@@ -13,7 +13,7 @@ spec:
       valueFiles:
         - $values/helm/media/sonarr/values.yaml
   sources:
-    - repoURL: https://github.com/YOURUSER/homelab-gitops.git
+    - repoURL: https://github.com/laurenssvg/homelab-gitops.git
       targetRevision: main
       ref: values
   destination:
