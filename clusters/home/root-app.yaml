@@ -8,7 +8,9 @@ spec:
   source:
     repoURL: https://github.com/laurenssvg/homelab-gitops.git
     targetRevision: main
-    path: clusters/home
+    path: clusters/home/apps
+    directory:
+      recurse: true
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
@@ -16,5 +18,3 @@ spec:
     automated:
       prune: true
       selfHeal: true
-    syncOptions:
-      - CreateNamespace=true

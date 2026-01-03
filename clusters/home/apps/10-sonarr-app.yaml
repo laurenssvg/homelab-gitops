@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sonarr
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: media
+
+  sources:
+    # 1) Helm chart source (MUST be a Helm repo that serves index.yaml)
+    - repoURL: https://bjw-s-labs.github.io/helm-charts
+      chart: app-template
+      targetRevision: 3.*.*
+      helm:
+        valueFiles:
+          - $values/helm/media/sonarr/values.yaml
+
+    # 2) Values source (your Git repo)
+    - repoURL: https://github.com/laurenssvg/homelab-gitops.git
+      targetRevision: main
+      ref: values
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
