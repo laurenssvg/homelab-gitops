@@ -8,13 +8,6 @@ service:
   type: LoadBalancer
   port: 3000
 
-ingress:
-  enabled: true
-  ingressClassName: nginx
-  hosts:
-    - grafana.local
-  path: /
-
 persistence:
   enabled: true
   storageClassName: local-path

@@ -23,14 +23,6 @@ server:
     type: LoadBalancer
     servicePort: 9090
 
-  ingress:
-    enabled: true
-    ingressClassName: nginx
-    hosts:
-      - prometheus.local
-    paths:
-      - /
-
   # Scrape configs for Servarr apps
   extraScrapeConfigs: |
     - job_name: 'sonarr'
