@@ -59,8 +59,3 @@ pushgateway:
 
 kube-state-metrics:
   enabled: true
-
-prometheus-node-exporter:
-  enabled: true
-  hostNetwork: true
-  hostPID: true
