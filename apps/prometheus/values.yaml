@@ -1,0 +1,74 @@
+alertmanager:
+  enabled: false
+
+server:
+  enabled: true
+  image:
+    repository: quay.io/prometheus/prometheus
+    tag: v2.48.0
+
+  persistentVolume:
+    enabled: true
+    storageClass: local-path
+    size: 5Gi
+
+  retention: "30d"
+
+  global:
+    scrape_interval: 30s
+    scrape_timeout: 10s
+    evaluation_interval: 30s
+
+  service:
+    type: LoadBalancer
+    servicePort: 9090
+
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - prometheus.local
+    paths:
+      - /
+
+  # Scrape configs for Servarr apps
+  extraScrapeConfigs: |
+    - job_name: 'sonarr'
+      static_configs:
+        - targets: ['sonarr.media.svc.cluster.local:8989']
+          labels:
+            app: 'sonarr'
+
+    - job_name: 'sabnzbd'
+      static_configs:
+        - targets: ['sabnzbd.media.svc.cluster.local:8181']
+          labels:
+            app: 'sabnzbd'
+
+    - job_name: 'kubernetes-pods'
+      kubernetes_sd_configs:
+        - role: pod
+      relabel_configs:
+        - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+          action: keep
+          regex: true
+        - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+          action: replace
+          target_label: __metrics_path__
+          regex: (.+)
+        - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+          action: replace
+          regex: ([^:]+)(?::\d+)?;(\d+)
+          replacement: $1:$2
+          target_label: __address__
+
+pushgateway:
+  enabled: false
+
+kube-state-metrics:
+  enabled: true
+
+prometheus-node-exporter:
+  enabled: true
+  hostNetwork: true
+  hostPID: true
